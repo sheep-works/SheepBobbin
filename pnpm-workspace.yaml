@@ -1,0 +1,12 @@
+packages:
+  - '.'
+  - 'modules/SheepShuttle/packages/*'
+
+allowBuilds:
+  electron: true
+
+onlyBuiltDependencies:
+  - '@google/genai'
+  - 'electron'
+  - 'esbuild'
+  - 'protobufjs'

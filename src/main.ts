@@ -69,10 +69,20 @@ function startHonoServer(win: BrowserWindow) {
   killExistingPortProcess(8000);
 
   let apiScript = '';
-  if (app.isPackaged) {
-    apiScript = path.resolve(__dirname, '../node_modules/@sheep-family/api/dist/index.js');
-  } else {
-    apiScript = path.resolve(__dirname, '../../api/dist/index.js');
+  const candidatePaths = [
+    path.resolve(__dirname, '../modules/SheepShuttle/packages/api/dist/index.js'),
+    path.resolve(__dirname, '../node_modules/@sheep-family/api/dist/index.js'),
+    path.resolve(__dirname, '../../api/dist/index.js'),
+    path.resolve(__dirname, '../../SheepShuttle/packages/api/dist/index.js'),
+  ];
+  for (const p of candidatePaths) {
+    if (fs.existsSync(p)) {
+      apiScript = p;
+      break;
+    }
+  }
+  if (!apiScript) {
+    apiScript = candidatePaths[0];
   }
   console.log(`Starting Hono server from: ${apiScript}`);
 
